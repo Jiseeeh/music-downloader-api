@@ -35,7 +35,9 @@
     "paths": {
       "@config": ["src/config/index.ts"],
       "@exceptions/*": ["src/exceptions/*"],
-      "@logger": ["src/logger/index.ts"]
+      "@logger": ["src/logger/index.ts"],
+      "@controllers/*": ["src/controllers/*"],
+      "@limiters/*": ["src/limiter/*"]
     } /* Specify a set of entries that re-map imports to additional lookup locations. */,
     // "rootDirs": [],                                   /* Allow multiple folders to be treated as one when resolving modules. */
     // "typeRoots": [],                                  /* Specify multiple folders that act like './node_modules/@types'. */
