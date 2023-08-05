@@ -22,6 +22,9 @@ devDependencies:
   '@types/express':
     specifier: ^4.17.17
     version: 4.17.17
+  '@types/morgan':
+    specifier: ^1.9.4
+    version: 1.9.4
   morgan:
     specifier: ^1.10.0
     version: 1.10.0
@@ -117,6 +120,12 @@ packages:
 
   /@types/mime@3.0.1:
     resolution: {integrity: sha512-Y4XFY5VJAuw0FgAqPNd6NNoV44jbq9Bz2L7Rh/J6jLTiHBSBJa9fxqQIvkIld4GsoDOcCbvzOUAbLPsSKKg+uA==}
+    dev: true
+
+  /@types/morgan@1.9.4:
+    resolution: {integrity: sha512-cXoc4k+6+YAllH3ZHmx4hf7La1dzUk6keTR4bF4b4Sc0mZxU/zK4wO7l+ZzezXm/jkYj/qC+uYGZrarZdIVvyQ==}
+    dependencies:
+      '@types/node': 20.4.7
     dev: true
 
   /@types/node@20.4.7:
