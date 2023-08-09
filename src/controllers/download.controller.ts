@@ -10,11 +10,7 @@ const download = async (req: Request, res: Response, next: NextFunction) => {
     const { url, formatId } = req.query;
     const video = await getVideo(String(url));
 
-    // removes any non-ASCII and special characters,
-    // and replaces whitespace with hyphens to create a clean 'fileName' for the video.
-    let fileName = video.title
-      .replace(/[^\x00-\x7F\s]|[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/g, "")
-      .replace(/\s+/g, "-");
+    let fileName = generateCleanFileName(video.title);
 
     const videoFormat = video.formats.find(
       (video) => video.format_id === String(formatId)
@@ -37,7 +33,9 @@ const download = async (req: Request, res: Response, next: NextFunction) => {
 
     // set headers
     res.setHeader("Content-Type", response.headers["content-type"]);
-    res.setHeader("Content-Length", response.headers["content-length"]);
+
+    // ? sometimes gets undefined
+    // res.setHeader("Content-Length", response.headers["content-length"]);
 
     // pipe to client
     response.data.pipe(res);
@@ -62,6 +60,7 @@ const getDownloadInfo = async (
 
     const downloadInfo = video.formats.map((format) => {
       const { acodec, vcodec, ext, format_note, format_id } = format;
+      const fileName = generateCleanFileName(video.title) + `.${ext}`;
       let type = "unknown";
 
       const isVideo = acodec !== "none" && vcodec !== "none";
@@ -74,6 +73,7 @@ const getDownloadInfo = async (
 
       return {
         id: format_id,
+        fileName,
         type,
         extension: ext,
         quality: format_note || "unknown",
@@ -85,7 +85,6 @@ const getDownloadInfo = async (
     next(error);
   }
 };
-
 
 // ? NOTE (can be extracted to a helper fn if gets used more than 2 times)
 /**
@@ -105,6 +104,20 @@ async function getVideo(url: string) {
   const videoJSON = await youtubedl(String(url), flags);
 
   return videoJSON;
+}
+
+// ? NOTE (can be extracted to a helper fn if gets used more than 2 times)
+/**
+ * The function generates a clean file name by removing special characters and replacing spaces with
+ * hyphens.
+ * @param {string} fileName - The `fileName` parameter is a string that represents the name of a file.
+ * @returns a clean file name by removing any non-ASCII characters, special characters, and replacing
+ * spaces with hyphens.
+ */
+function generateCleanFileName(fileName: string) {
+  return fileName
+    .replace(/[^\x00-\x7F\s]|[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/g, "")
+    .replace(/\s+/g, "-");
 }
 
 export { download, getDownloadInfo };
