@@ -5,6 +5,7 @@ import helmet from "helmet";
 import cors from "cors";
 
 import { PORT } from "@config";
+import { ORIGIN } from "@config";
 import { ErrorMiddleware } from "src/middlewares/error.middleware";
 import { downloadRouter } from "src/routes/download.route";
 import { downloadLimiter } from "@limiters/download.limiter";
@@ -15,7 +16,7 @@ dotenv.config();
 // middleware
 app.use(
   cors({
-    origin: "http://localhost:3000",
+    origin: ORIGIN,
   })
 );
 app.use(morgan("dev"));
