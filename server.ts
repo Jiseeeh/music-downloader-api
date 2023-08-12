@@ -24,8 +24,7 @@ app.use(helmet());
 app.use(express.json());
 
 // routes
-app.use("/api/download", downloadRouter);
-// app.use("/api/download", downloadLimiter, downloadRouter);
+app.use("/api/download", downloadLimiter, downloadRouter);
 
 // error handler
 app.use(ErrorMiddleware);
