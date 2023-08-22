@@ -31,12 +31,6 @@ const download = async (req: Request, res: Response, next: NextFunction) => {
       responseType: "stream",
     });
 
-    // set headers
-    res.setHeader("Content-Type", response.headers["content-type"]);
-
-    // ? sometimes gets undefined
-    // res.setHeader("Content-Length", response.headers["content-length"]);
-
     // pipe to client
     response.data.pipe(res);
 
