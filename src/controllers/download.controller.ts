@@ -9,11 +9,12 @@ const download = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { url, formatId } = req.query;
     const video = await getVideo(String(url));
+    const AUDIO_FORMAT = 140;
 
     let fileName = generateCleanFileName(video.title);
 
     const videoFormat = video.formats.find(
-      (video) => video.format_id === String(formatId)
+      (video) => video.format_id === String(formatId || AUDIO_FORMAT)
     );
 
     fileName = `${fileName}.${videoFormat?.ext as string}`;
